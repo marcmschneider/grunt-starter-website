@@ -1,0 +1,3 @@
+- Check for auto favicon maker
+- Cache files
+- unique file names for css and js

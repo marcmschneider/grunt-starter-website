@@ -1,0 +1,121 @@
+@import "compass";
+//@import "compass/reset";
+//@import "_normalize";
+@import "_reset";
+@import "susy";
+@import "modular-scale";
+@import "_mixins";
+
+/*
+* Compass settings
+*/
+@include border-box-sizing;
+//$legacy-support-for-ie: false;
+//$legacy-support-for-ie6: false;
+
+/*
+* Vertical Rythm settings
+*/
+$base-font-size: 16px;
+$base-line-height: 22px;
+@include establish-baseline;
+
+// Override Baseline Mixin
+@mixin baseline-grid {
+	@include baseline-grid-background($base-line-height);
+}
+
+/*
+* Modular Scale settings
+*/
+$ratio: golden();
+$base-size: $base-font-size;
+
+/*
+* Susy settings
+*/
+$container-style: magic;
+$total-columns: 12;
+$column-width: 56px;
+$gutter-width: 22px;
+$grid-padding: 40px;
+
+/*
+* Sprites import
+*/
+//@import "sprites/*.png";
+// Include like this
+// .class {
+// 	@include sprites-sprite(test);
+// 	height: image-height("sprites/name.png");
+// 	width: image-width("sprites/name.png");
+// }
+
+/*
+* Own Resets
+*/
+a:focus { 
+    outline: none; 
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+* Varaibles
+*/
+$main-font-color: adjust-lightness(black, 20);
+$main-font-family: sans-serif;
+$main-background-color: adjust-lightness(black, 99);
+
+
+
+html {
+	overflow: -moz-scrollbars-vertical; 
+	overflow-y: scroll;
+}
+
+body {
+	height: 100%;
+	font-family: $main-font-family;
+	color: $main-font-color;
+	background-color: $main-background-color;
+	//letter-spacing: 0.07em;
+	//word-spacing: 1em;
+	@include antialiasing;
+	@include adjust-font-size-to($base-font-size);
+}
+
+#{headings()} {
+	text-rendering: optimizeLegibility;
+}
+
+h1 {
+	@include adjust-font-size-to(ms(2));
+	font-weight: bold;
+}
+
+h2 {
+	@include adjust-font-size-to(ms(1));
+}
+
+h3 {
+	@include adjust-font-size-to(ms(0));
+	font-weight: bold;
+}
+
+.container {
+	@include container;
+	@include leader(2, ms(0));
+	@include trailer(4, ms(0));
+
+	// @include susy-grid-background;
+	// @include baseline-grid;
+}

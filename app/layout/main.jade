@@ -1,0 +1,38 @@
+doctype 5
+//if lt IE 7
+	<html class="no-js lt-ie9 lt-ie8 lt-ie7">
+//if IE 7
+	<html class="no-js lt-ie9 lt-ie8">
+//if IE 8
+	<html class="no-js lt-ie9">
+//[if gt IE 8]><!
+html.no-js(lang="en")
+	//<![end if]
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+		block title
+			title Grunt-Starter – Website
+
+		block description
+			meta(name="description", content="")
+		
+		meta(name="viewport", content="width=device-width")
+		
+		link(rel="stylesheet", href="css/main.css")
+		block stylesheet
+
+		script(src='js/vendor/modernizr/modernizr.js')
+	body
+		div.container
+			h1 Grunt-Starter Website
+			block content
+
+			script(data-main="js/main", src="js/vendor/requirejs/require.js")
+
+			//- // Google Analytics: change UA-XXXXX-X to be your site's ID.
+			//- script
+			//- 	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+			//- 	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+			//- 	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+			//- 	s.parentNode.insertBefore(g,s)}(document,'script'));
