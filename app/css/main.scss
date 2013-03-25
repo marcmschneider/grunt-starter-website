@@ -1,38 +1,56 @@
+/*
+|--------------------------------------------------------------------------
+| Imports
+|--------------------------------------------------------------------------
+*/
 @import "compass";
-//@import "compass/reset";
-//@import "_normalize";
-@import "_reset";
+@import "vendor/_reset";
 @import "susy";
 @import "modular-scale";
-@import "_mixins";
+@import "vendor/_mixins";
+
 
 /*
-* Compass settings
+|--------------------------------------------------------------------------
+| Compass Settings
+|--------------------------------------------------------------------------
 */
 @include border-box-sizing;
-//$legacy-support-for-ie: false;
-//$legacy-support-for-ie6: false;
+
 
 /*
-* Vertical Rythm settings
+|--------------------------------------------------------------------------
+| Vertical Rythm Settings
+|--------------------------------------------------------------------------
 */
 $base-font-size: 16px;
 $base-line-height: 22px;
 @include establish-baseline;
 
-// Override Baseline Mixin
+
+/*
+|--------------------------------------------------------------------------
+| Override Compass Baseline Mixin
+|--------------------------------------------------------------------------
+*/
 @mixin baseline-grid {
 	@include baseline-grid-background($base-line-height);
 }
 
+
 /*
-* Modular Scale settings
+|--------------------------------------------------------------------------
+| Modular Scale Settings
+|--------------------------------------------------------------------------
 */
 $ratio: golden();
 $base-size: $base-font-size;
 
+
 /*
-* Susy settings
+|--------------------------------------------------------------------------
+| Susy Settings
+|--------------------------------------------------------------------------
 */
 $container-style: magic;
 $total-columns: 12;
@@ -40,10 +58,13 @@ $column-width: 56px;
 $gutter-width: 22px;
 $grid-padding: 40px;
 
+
 /*
-* Sprites import
+|--------------------------------------------------------------------------
+| Sprites example Import
+|--------------------------------------------------------------------------
 */
-//@import "sprites/*.png";
+// @import "sprites/*.png";
 // Include like this
 // .class {
 // 	@include sprites-sprite(test);
@@ -51,8 +72,11 @@ $grid-padding: 40px;
 // 	width: image-width("sprites/name.png");
 // }
 
+
 /*
-* Own Resets
+|--------------------------------------------------------------------------
+| Own Resets
+|--------------------------------------------------------------------------
 */
 a:focus { 
     outline: none; 
@@ -68,15 +92,22 @@ a:focus {
     text-shadow: none;
 }
 
+
 /*
-* Varaibles
+|--------------------------------------------------------------------------
+| Variables
+|--------------------------------------------------------------------------
 */
 $main-font-color: adjust-lightness(black, 20);
 $main-font-family: sans-serif;
 $main-background-color: adjust-lightness(black, 99);
 
 
-
+/*
+|--------------------------------------------------------------------------
+| Base Styling
+|--------------------------------------------------------------------------
+*/
 html {
 	overflow: -moz-scrollbars-vertical; 
 	overflow-y: scroll;
@@ -87,12 +118,16 @@ body {
 	font-family: $main-font-family;
 	color: $main-font-color;
 	background-color: $main-background-color;
-	//letter-spacing: 0.07em;
-	//word-spacing: 1em;
 	@include antialiasing;
 	@include adjust-font-size-to($base-font-size);
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| Base Font Sytling
+|--------------------------------------------------------------------------
+*/
 #{headings()} {
 	text-rendering: optimizeLegibility;
 }
@@ -111,6 +146,12 @@ h3 {
 	font-weight: bold;
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| Site Styling
+|--------------------------------------------------------------------------
+*/
 .container {
 	@include container;
 	@include leader(2, ms(0));
