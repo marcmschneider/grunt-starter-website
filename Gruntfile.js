@@ -23,8 +23,12 @@ module.exports = function (grunt) {
         tasks: ['compass']
       },
       jade: {
-        files: ['<%= path.app %>/**/*.jade'],
+        files: ['<%= path.app %>/**/*.{jade,md,markdown}'],
         tasks: ['jade:dev', 'livereload']
+      },
+      handlebars: {
+        files: ['<%= path.app %>/js/app/templates/**/*.hbs'],
+        tasks: ['handlebars:dev']
       },
       livereload: {
         files: [
@@ -68,7 +72,8 @@ module.exports = function (grunt) {
     },
     clean: {
       dist: ['.tmp', '<%= path.dist %>/*'],
-      server: '.tmp'
+      server: '.tmp',
+      templates: '<%= path.app %>/js/app/templates/**/*.js'
     },
     jshint: {
       options: {
@@ -87,12 +92,12 @@ module.exports = function (grunt) {
         sassDir: '<%= path.app %>/css',
         cssDir: '.tmp/css',
         imageDir: '<%= path.app %>/css/img',
-        //fontsDir: '<%= path.app %>/css/fonts',
         relativeAssets: false
       },
       dist: {
         options: {
-          cssDir: '<%= path.dist %>/css'
+          cssDir: '<%= path.dist %>/css',
+          outputStyle: 'compressed'
         }
       },
       server: {
@@ -105,9 +110,9 @@ module.exports = function (grunt) {
       compile: {
         options: {
           name: 'main',
-          baseUrl: 'app/js',
-          mainConfigFile: 'app/js/main.js',
-          out: 'dist/js/main.js',
+          baseUrl: '<%= path.app %>/js',
+          mainConfigFile: '<%= path.app %>/js/main.js',
+          out: '<%= path.dist %>/js/main.js',
           preserveLicenseComments: false,
           useStrict: true,
           wrap: true,
@@ -144,28 +149,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    htmlmin: {
-      dist: {
-        options: {
-          removeCommentsFromCDATA: true,
-          removeCDATASectionsFromCDATA: true,
-          removeComments: true,
-          collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          removeAttributeQuotes: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeOptionalTags: true
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= path.dist %>',
-          src: '**/*.html',
-          dest: '<%= path.dist %>'
-        }]
-      }
-    },
     jade: {
       dev: {
         files: [{
@@ -187,7 +170,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '<%= path.app %>',
           src: ['**/*.jade', '!layout/*.jade'],
-          dest: 'dist/',
+          dest: '<%= path.dist %>/',
           ext: '.html'
         }],
         options: {
@@ -197,6 +180,34 @@ module.exports = function (grunt) {
           }
         }
       },
+    },
+    handlebars: {
+      dev: {
+        options: {
+          namespace: false,
+          amd: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= path.app %>/js/app/templates/',
+          src: '**/*.hbs',
+          dest: '.tmp/js/app/templates',
+          ext: '.js'
+        }]
+      },
+      dist: {
+        options: {
+          namespace: false,
+          amd: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= path.app %>/js/app/templates/',
+          src: '**/*.hbs',
+          dest: '<%= path.app %>/js/app/templates',
+          ext: '.js'
+        }]
+      }
     },
     copy: {
       html: {
@@ -218,6 +229,11 @@ module.exports = function (grunt) {
           cwd: '<%= path.app %>',
           dest: '<%= path.dist %>',
           src: [
+            'img/**/*',
+            'css/img/**/*',
+            '!css/img/sprites/*',
+
+            'css/fonts/**/*',
             'robots.txt',
             'humans.txt',
             'crossdomain.xml',
@@ -231,6 +247,48 @@ module.exports = function (grunt) {
             'apple-touch-icon.png'
           ]
         }]
+      }
+    },
+    rev: {
+      options: {
+        encoding: 'utf8',
+        algorithm: 'md5',
+        length: 8
+      },
+      assets: {
+        files: [{
+          src: [
+            '<%= path.dist %>/css/**/*.css',
+            '<%= path.dist %>/js/**/*.js',
+            '<%= path.dist %>/css/fonts/**/*',
+            '<%= path.dist %>/css/img/**/*.{png,jpg,jpeg,gif,webp}'
+          ]
+        }]
+      }
+    },
+    useminPrepare: {
+      html: '<%= path.dist %>/index.html',
+      options: {
+        dest: '<%= path.dist %>/'
+      }
+    },
+    usemin: {
+      html: ['<%= path.dist %>/*.html'],
+      css: ['<%= path.dist %>/css/{,*/}*.css'],
+      options: {
+        dirs: ['dist']
+      }
+    },
+    'ftp-deploy': {
+      build: {
+        auth: {
+          host: 'host',
+          port: 21,
+          authKey: 'key'
+        },
+        src: 'dist/',
+        dest: '/dest',
+        exclusions: ['dist/**/.DS_Store']
       }
     }
   });
@@ -246,6 +304,7 @@ module.exports = function (grunt) {
       'clean:server',
       'jade:dev',
       'compass:server',
+      'handlebars:dev',
       'livereload-start',
       'connect:livereload',
       'open',
@@ -255,16 +314,25 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'useminPrepare',
     'jshint',
+    'handlebars:dist',
     'requirejs',
+    'clean:templates',
     'uglify',
     'compass:dist',
-    'imagemin:img',
-    'imagemin:css',
+    // 'imagemin:img',
+    // 'imagemin:css',
     'jade:dist',
     'copy:html',
-    'htmlmin',
-    'copy:dist'
+    'copy:dist',
+    'rev',
+    'usemin'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'ftp-deploy'
   ]);
 
   grunt.registerTask('default', ['server']);

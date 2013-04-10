@@ -3,16 +3,19 @@ extends layout/main
 block title
 	title Grunt-Starter – Website
 
-//block description
+//- block description
 	meta(name="description", content="")
 
-//block stylesheet
-	// put extended stylesheet
+//- append stylesheet
+	put extended stylesheet
 
 block content
+	h1 Grunt-Starter Website
 	h2 Welcome
 	h3 You have installed
 	ul
 		li HTML5 Boilerplate
 		li Modernizr
 		li Modular Scale
+
+	include markdown/index.md

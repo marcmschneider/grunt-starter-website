@@ -1,13 +1,14 @@
 /*
 |--------------------------------------------------------------------------
-| Imports
+| Basic Imports
 |--------------------------------------------------------------------------
 */
 @import "compass";
-@import "vendor/_reset";
+@import "vendor/_newReset";
+@import "vendor/_mixins";
 @import "susy";
 @import "modular-scale";
-@import "vendor/_mixins";
+@import "_fontface";
 
 
 /*
@@ -67,7 +68,7 @@ $grid-padding: 40px;
 // @import "sprites/*.png";
 // Include like this
 // .class {
-// 	@include sprites-sprite(test);
+// 	@include sprites-sprite(name);
 // 	height: image-height("sprites/name.png");
 // 	width: image-width("sprites/name.png");
 // }
@@ -80,6 +81,37 @@ $grid-padding: 40px;
 */
 a:focus { 
     outline: none; 
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Variables
+|--------------------------------------------------------------------------
+*/
+$base-background-color: adjust-lightness(black, 99);
+$base-font-color: adjust-lightness(black, 20);
+$title-font-family: sans-serif;
+$base-font-family: serif;
+
+
+/*
+|--------------------------------------------------------------------------
+| Base Styling
+|--------------------------------------------------------------------------
+*/
+html {
+	overflow: -moz-scrollbars-vertical; 
+	overflow-y: scroll;
+}
+
+body {
+	height: 100%;
+	font-family: $base-font-family;
+	color: $base-font-color;
+	background-color: $base-background-color;
+	@include antialiasing;
+	@include adjust-font-size-to($base-font-size);
 }
 
 ::-moz-selection {
@@ -95,40 +127,11 @@ a:focus {
 
 /*
 |--------------------------------------------------------------------------
-| Variables
-|--------------------------------------------------------------------------
-*/
-$main-font-color: adjust-lightness(black, 20);
-$main-font-family: sans-serif;
-$main-background-color: adjust-lightness(black, 99);
-
-
-/*
-|--------------------------------------------------------------------------
-| Base Styling
-|--------------------------------------------------------------------------
-*/
-html {
-	overflow: -moz-scrollbars-vertical; 
-	overflow-y: scroll;
-}
-
-body {
-	height: 100%;
-	font-family: $main-font-family;
-	color: $main-font-color;
-	background-color: $main-background-color;
-	@include antialiasing;
-	@include adjust-font-size-to($base-font-size);
-}
-
-
-/*
-|--------------------------------------------------------------------------
 | Base Font Sytling
 |--------------------------------------------------------------------------
 */
 #{headings()} {
+	font-family: $title-font-family;
 	text-rendering: optimizeLegibility;
 }
 
@@ -160,3 +163,11 @@ h3 {
 	// @include susy-grid-background;
 	// @include baseline-grid;
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| Print Styling
+|--------------------------------------------------------------------------
+*/
+@import "_print";

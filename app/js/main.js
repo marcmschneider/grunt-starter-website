@@ -2,23 +2,29 @@ require.config({
 	paths: {
 		jquery: 'vendor/jquery/jquery',
 		lodash: 'vendor/lodash/lodash',
-		backbone: 'vendor/backbone/backbone'
+		backbone: 'vendor/backbone/backbone',
+		handlebars: 'vendor/handlebars/handlebars.runtime'
 	},
 	shim: {
-		backbone: {
+		'backbone': {
 			deps: ['jquery', 'lodash'],
 			exports: 'Backbone'
+		},
+		'handlebars': {
+			exports: 'Handlebars'
+		},
+		'app/plugins': {
+			deps: ['jquery']
 		}
 	}
 });
 
-require(['jquery', 'lodash', 'backbone', 'app/app'], function ($, _, Backbone, App) {
+require(['app/app', 'app/plugins', 'helpers/browser/reset'], function (App, plugins) {
 	'use strict';
 
-	console.log('requirejs ' + window.require.version);
-	console.log('jQuery ' + $.fn.jquery);
-	console.log('Lodash ' + _.VERSION);
-	console.log('Backbone ' + Backbone.VERSION);
+	var app = new App();
 
-	console.log(App);
+	if (plugins) {
+		app.init();
+	}
 });

@@ -5,7 +5,7 @@
 	font-smooth: always;
 }
 
-@mixin fontFace( $fontName, $path: "", $weight: normal, $style: none, $fileName: $fontName, $svg:0 ) {
+@mixin fontFace( $fontName, $path: "fonts/", $weight: normal, $style: none, $fileName: $fontName, $svg:0 ) {
 	$src: url("#{$path}#{$fileName}.eot?iefix") format("eot"), 
 		  url("#{$path}#{$fileName}.woff") format("woff"),
 		  url("#{$path}#{$fileName}.ttf") format("truetype");
