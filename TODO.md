@@ -12,6 +12,13 @@
 
 - htmlmin
 
+- main.scss --> take out outline focus reset!!! is crab
+
+- intergrate ascii code sign
+
+- think about http://www.onsite.org/html/antispam_email.html
+
+- maybe replace susy with http://www.profoundgrid.com/
 
 
 
