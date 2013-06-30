@@ -13,7 +13,7 @@
     "grunt-contrib-imagemin": "0.1.2",
     "grunt-contrib-livereload": "0.1.1",
     "grunt-contrib-requirejs": "~0.4.0",
-    "grunt-contrib-jade": "~0.4.0",
+    "grunt-contrib-jade": "~0.7.0",
     "grunt-contrib-handlebars": "~0.5.8",
     "grunt-regarde": "~0.1.1",
     "grunt-open": "~0.2.0",
